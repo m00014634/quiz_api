@@ -1,9 +1,9 @@
 from flask import Blueprint
-bp = Blueprint('api',__name__,url_prefix='/api/v1')
+from api.utils import Register
 from database import models
-from .utils import Register
 from typing import Dict
 
+bp = Blueprint('api',__name__,url_prefix='/api/v1')
 
 # Registration API
 @bp.post('/register/<string:name>/<string:number>')
@@ -42,7 +42,7 @@ def get_leaders(level):
 @bp.get('/get-questions/<string:level>/<string:q_set>')
 def get_questions(level:str,q_set:str)->Dict:
     questions = models.get_guestions(level,q_set)
-    result = {'timer':45 , 'questions':[{'question_id':i[0],i[1]:i[2:6]} for i in questions]}
+    result = {'timer':45 , 'questions':[{'question_id':i[0],'question':i[1],'question_answers':i[2:6]} for i in questions]}
     return result
 
 
